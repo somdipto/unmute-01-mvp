@@ -1,0 +1,96 @@
+import React from 'react';
+import { Home, User, MessageCircle, Music, Settings, Search, Edit, Mic, Send, Smile } from 'lucide-react';
+
+const App = () => {
+  return (
+    <div className="flex h-screen bg-gray-900 text-white">
+      {/* Left Sidebar */}
+      <div className="w-16 bg-gray-800 flex flex-col items-center py-4">
+        <div className="w-10 h-10 bg-purple-600 rounded-full mb-8"></div>
+        <SidebarIcon icon={<Home />} />
+        <SidebarIcon icon={<User />} />
+        <SidebarIcon icon={<MessageCircle />} active />
+        <SidebarIcon icon={<Music />} />
+        <SidebarIcon icon={<Settings />} />
+      </div>
+
+      {/* Messages List */}
+      <div className="w-64 bg-gray-800 overflow-y-auto">
+        <div className="flex justify-between items-center p-4">
+          <h2 className="text-xl font-bold">Messages</h2>
+          <Search className="w-5 h-5 text-gray-400" />
+        </div>
+        <div className="px-2">
+          {[...Array(5)].map((_, i) => (
+            <MessageItem key={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* Chat Window */}
+      <div className="flex-1 flex flex-col">
+        <div className="flex-1 overflow-y-auto px-4 py-2">
+          <ChatMessage sent={false} content="Hey there! How's it going?" />
+          <ChatMessage sent={true} content="Not bad, just working on some code. You?" />
+          <ChatMessage sent={false} content="Same here! Working on a new project." />
+        </div>
+        <div className="p-4 bg-gray-800">
+          <div className="flex items-center bg-gray-700 rounded-full p-2">
+            <Smile className="w-6 h-6 text-gray-400 mr-2" />
+            <input
+              type="text"
+              placeholder="Type a message..."
+              className="flex-1 bg-transparent outline-none"
+            />
+            <Mic className="w-6 h-6 text-gray-400 mx-2" />
+            <button className="bg-blue-500 rounded-full p-2">
+              <Send className="w-5 h-5 text-white" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Sidebar */}
+      <div className="w-16 bg-gray-800 flex flex-col items-center py-4">
+        {[...Array(6)].map((_, i) => (
+          <UserIcon key={i} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const SidebarIcon = ({ icon, active }) => (
+  <div className={`w-10 h-10 flex items-center justify-center rounded-lg mb-4 ${active ? 'bg-gray-700' : 'text-gray-400 hover:bg-gray-700'}`}>
+    {icon}
+  </div>
+);
+
+const MessageItem = () => (
+  <div className="flex items-center mb-4 hover:bg-gray-700 rounded-lg p-2 cursor-pointer">
+    <div className="relative">
+      <img src="/api/placeholder/40/40" alt="User" className="w-10 h-10 rounded-full" />
+      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-800"></div>
+    </div>
+    <div className="ml-3">
+      <h3 className="font-semibold">User Name</h3>
+      <p className="text-sm text-gray-400">Hey, what's up?</p>
+    </div>
+  </div>
+);
+
+const ChatMessage = ({ sent, content }) => (
+  <div className={`max-w-xs ${sent ? 'ml-auto' : ''} mb-2`}>
+    <div className={`p-2 rounded-lg ${sent ? 'bg-blue-600' : 'bg-gray-700'}`}>
+      {content}
+    </div>
+  </div>
+);
+
+const UserIcon = () => (
+  <div className="w-10 h-10 bg-yellow-500 rounded-full mb-4 flex items-center justify-center">
+    <User className="w-6 h-6 text-white" />
+  </div>
+);
+
+export default App;
